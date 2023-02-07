@@ -2,6 +2,17 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const circleStyle = {
+  width: "50px",
+  height: "50px",
+  backgroungColor: "red",
+  border: "2px",
+  position: "absolute",
+  right: "22%",
+  top: "4%",
+  textDecoration: "none",
+};
+
 export const ClickedBlog = () => {
   const navigate = useNavigate();
   const [blogData, setBlogData] = useState();
@@ -36,6 +47,9 @@ export const ClickedBlog = () => {
 
   return (
     <div className="container-fluid p-5" style={{ width: "52.5rem" }}>
+      <a href="/allblogs" style={circleStyle}>
+        ❌
+      </a>
       {blogData && (
         <div className="card mb-3">
           <img
