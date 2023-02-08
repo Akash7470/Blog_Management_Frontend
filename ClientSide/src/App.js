@@ -20,10 +20,8 @@ function App() {
           <Route path={"/loginuser/blogs"} element={<UserBlog />} />
           <Route path={"/allblogs/clickedblog"} element={<ClickedBlog />} />
           <Route path={"/blog/user"} element={<AddBlog />} />
-          <Route
-            path={"/allblogs/clickedblog/update"}
-            element={<UpdateBlog />}
-          />
+          <Route path={"/user/admin"} element={<Homepage />} />
+          <Route path={"/allblogs/update"} element={<UpdateBlog />} />
         </Routes>
       </div>
     </BrowserRouter>
