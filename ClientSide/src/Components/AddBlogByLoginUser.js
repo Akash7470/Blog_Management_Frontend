@@ -39,7 +39,7 @@ export default function AddBlogByLoginUser() {
   return (
     <div
       className="container border border-dark bg-light mt-5 rounded-4 "
-      style={{ width: "33rem", height: "35rem" }}
+      style={{ width: "33rem", height: "28rem" }}
     >
       <form autoComplete="On" onSubmit={handleSubmit}>
         <nav className="navbar bg- mt-4 mb-4">

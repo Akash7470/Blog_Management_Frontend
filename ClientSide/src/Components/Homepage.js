@@ -12,6 +12,7 @@ export default function Homepage() {
 
   useEffect(() => {
     gettingData();
+    // console.log(loginUser);
   }, []);
 
   const gettingData = async () => {

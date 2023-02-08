@@ -10,6 +10,7 @@ const circleStyle = {
   position: "absolute",
   right: "22%",
   top: "4%",
+  cursor: "wait",
   textDecoration: "none",
 };
 
@@ -47,9 +48,9 @@ export const ClickedBlog = () => {
 
   return (
     <div className="container-fluid p-5" style={{ width: "52.5rem" }}>
-      <a href="/allblogs" style={circleStyle}>
+      <p onClick={() => navigate("/allblogs")} style={circleStyle}>
         ❌
-      </a>
+      </p>
       {blogData && (
         <div className="card mb-3">
           <img
@@ -75,7 +76,7 @@ export const ClickedBlog = () => {
               {loginUser.email === (blogData && blogData.user.email) ? (
                 <div className=" d-flex justify-content-end gap-3">
                   <button
-                    onClick={() => navigate("/allblogs/clickedblog/update")}
+                    onClick={() => navigate("/allblogs/update")}
                     className="btn btn-info"
                   >
                     update

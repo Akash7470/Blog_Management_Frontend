@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function LoginPage() {
@@ -21,9 +21,13 @@ export default function LoginPage() {
       });
     const data = res.data;
     if (data.status === "Ok") {
-      // console.log(data.data, "LoginUseroiopo-----------------");
+      console.log(data.data, "LoginUseroiopo-----------------");
       window.localStorage.setItem("token", JSON.stringify(data.data));
-      navigate("/allblogs");
+      if (data.data.usertype === "Admin") {
+        navigate("/user/admin");
+      } else {
+        navigate("/allblogs");
+      }
     } else {
       alert("User Not Found !!");
     }
@@ -41,6 +45,7 @@ export default function LoginPage() {
           </a>
         </div>
       </nav>
+
       <form autoComplete="Off" onSubmit={handleSubmit} className="mt-1">
         <div className="mb-4 d-flex gap-1">
           <label for="exampleInputEmail1" className="form-label">

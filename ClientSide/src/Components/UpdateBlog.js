@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function UpdateBlog() {
-  // const [blogData, setBlogData] = useState();
   const [addBlogCredentials, setAddBlogCredentials] = useState({
     title: "",
     description: "",
@@ -14,26 +13,6 @@ export default function UpdateBlog() {
   const navigate = useNavigate();
   const loginUser = JSON.parse(window.localStorage.getItem("token"));
   const blogId = window.localStorage.getItem("blogId");
-
-  // const getBlogData = async () => {
-  //   const res = await axios
-  //     .get(`http://localhost:5000/blog/${blogId}`)
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   if (res.status === 200) {
-  //     setBlogData(res.data.blog);
-  //     console.log(res.data.blog, "Clicked Blog is..");
-  //   } else {
-  //     alert("Nothing");
-  //   }
-  // };
-  // useEffect(() => {
-  //   getBlogData();
-  // }, []);
-  // useEffect(() => {
-  //   console.log(blogData);
-  // }, [blogData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +27,7 @@ export default function UpdateBlog() {
     // console.log(res);
     if (res.status === 200) {
       console.log(res.data, "Blog Updated Successfully");
-      navigate("/allblogs/clickedblog");
+      navigate("/allblogs");
     } else {
       alert("Blog Not Updated !!");
     }
