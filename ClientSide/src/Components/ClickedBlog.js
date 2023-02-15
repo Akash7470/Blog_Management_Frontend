@@ -19,6 +19,7 @@ export const ClickedBlog = () => {
   const [blogData, setBlogData] = useState();
   const blogId = window.localStorage.getItem("blogId");
   const loginUser = JSON.parse(window.localStorage.getItem("token"));
+
   const getClickedBlogData = async () => {
     const res = await axios
       .get(`http://localhost:5000/blog/${blogId}`)
@@ -27,7 +28,7 @@ export const ClickedBlog = () => {
       });
     if (res.status === 200) {
       setBlogData(res.data.blog);
-      console.log(res.data.blog, "Clicked Blog is..");
+      // console.log(res.data.blog, "Clicked Blog is..");
     } else {
       alert("Nothing");
     }

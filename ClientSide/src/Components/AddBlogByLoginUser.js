@@ -25,7 +25,6 @@ export default function AddBlogByLoginUser() {
       .catch((err) => {
         console.log(err);
       });
-    console.log(res);
     if (res.status === 200) {
       console.log(res.data, "Blog Added Successfully");
       navigate("/allblogs");
@@ -42,7 +41,7 @@ export default function AddBlogByLoginUser() {
       style={{ width: "33rem", height: "28rem" }}
     >
       <form autoComplete="On" onSubmit={handleSubmit}>
-        <nav className="navbar bg- mt-4 mb-4">
+        <nav className="navbar bg- mt-4 mb-4 ">
           <div className="container-fluid">
             <h2>Add Blog.....!!!</h2>
           </div>
@@ -97,9 +96,18 @@ export default function AddBlogByLoginUser() {
             }
           />
         </div>
-        <button type="submit" className="btn btn-primary">
-          Add Blog
-        </button>
+        <div className="d-flex justify-content-between">
+          <button type="submit" className="btn btn-primary">
+            Add Blog
+          </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => navigate("/allblogs")}
+          >
+            {" "}
+            Go Back
+          </button>
+        </div>
       </form>
     </div>
   );

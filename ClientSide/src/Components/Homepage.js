@@ -1,31 +1,45 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { BlogData } from "./BlogData";
 import { ClickedBlog } from "./ClickedBlog";
+import { useDispatch, useSelector } from "react-redux";
+import { blogs } from "../Store/Slices/BlogSlice";
 
 export default function Homepage() {
   const [blogData, setBlogData] = useState();
   const loginUser = JSON.parse(window.localStorage.getItem("token"));
   const [cardOpen, setCardOpen] = useState(false);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const reduxStoreData = useRef(0);
+  const allBlogs = useSelector((state) => {
+    return state;
+  });
   useEffect(() => {
     gettingData();
-    // console.log(loginUser);
+
+    // getReduxStoreData();
+
+    // console.log(reduxStoreData.current);
+    // console.log(allBlogs.blogs[0]);
   }, []);
 
   const gettingData = async () => {
-    const res = await axios
-      .get("http://localhost:5000/allblogs")
-      .catch((err) => console.log(err));
-    // console.log(res.data.blogs);
+    const res = await axios.get("http://localhost:5000/allblogs");
+    // .catch((err) => console.log(err));
     setBlogData(res.data.blogs);
+    dispatch(blogs(res.data.blogs));
+    // console.log(res.data.blogs);
+    reduxStoreData.current = 1;
+  };
+  const getReduxStoreData = () => {
+    setBlogData(allBlogs.blogs[0]);
   };
 
   const blogOpen = (e) => {
     setCardOpen(true);
-
     JSON.stringify(window.localStorage.setItem("blogId", e));
   };
 
@@ -37,36 +51,33 @@ export default function Homepage() {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 mx-4">
-              <li className="nav-item">
-                <a
-                  className="nav-link active"
-                  aria-current="page"
-                  href="/allblogs"
-                >
+              <li className="nav-item ">
+                <button className="btn" onClick={() => navigate("/allblogs")}>
+                  {" "}
                   All Blogs
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="/loginuser/blogs">
+                <button
+                  className="btn"
+                  onClick={() => navigate("/loginuser/blogs")}
+                >
+                  {" "}
                   My Blogs
-                </a>
+                </button>
               </li>
             </ul>
             <ul className="d-flex gap-5">
               <button
                 className="btn btn-dark"
-                onClick={(e) => navigate("/blog/user")}
+                onClick={() => navigate("/blog/user")}
               >
                 {" "}
                 Add Blogs
               </button>
-              <button
-                onClick={(e) => navigate("/")}
-                className="btn btn-danger"
-                type="button"
-              >
+              <a className="btn btn-danger" href="/">
                 Log Out
-              </button>
+              </a>
             </ul>
           </div>
         </div>
@@ -95,6 +106,13 @@ export default function Homepage() {
           >
             <div className="card-header text-center">User Details</div>
             <div className=" text-start">
+              <div className="card-title d-flex gap-2">
+                UserType:{" "}
+                <p className="card-text">
+                  {" "}
+                  <b>{loginUser.usertype}</b>
+                </p>
+              </div>
               <div className="card-title d-flex gap-2 ">
                 FullName: <h5 className="card-title">{loginUser.fullname}</h5>
               </div>

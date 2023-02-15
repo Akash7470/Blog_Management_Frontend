@@ -1,6 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 export default function LoginPage() {
   const [loginCredentials, setLoginCredentials] = useState({
@@ -21,8 +21,9 @@ export default function LoginPage() {
       });
     const data = res.data;
     if (data.status === "Ok") {
-      console.log(data.data, "LoginUseroiopo-----------------");
+      // console.log(data.data, "LoginUseroiopo-----------------");
       window.localStorage.setItem("token", JSON.stringify(data.data));
+
       if (data.data.usertype === "Admin") {
         navigate("/user/admin");
       } else {

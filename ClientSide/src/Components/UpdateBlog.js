@@ -94,9 +94,18 @@ export default function UpdateBlog() {
             }
           />
         </div>
-        <button type="submit" className="btn btn-primary">
-          Update Blog
-        </button>
+        <div className="d-flex justify-content-between">
+          <button type="submit" className="btn btn-primary">
+            Update
+          </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => navigate("/allblogs/clickedblog")}
+          >
+            {" "}
+            Go Back
+          </button>
+        </div>
       </form>
     </div>
   );
