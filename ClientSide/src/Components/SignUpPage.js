@@ -1,32 +1,35 @@
 import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Component } from "react";
+// import { useNavigate } from "react-router-dom";
 
-export default function SignUpPage() {
-  const [userType, setUserType] = useState("");
-  const [signUpCredentials, setSignUpCredentials] = useState({
-    fullname: "",
-    email: "",
-    username: "",
-    password: "",
-  });
-  const [secretKey, setSecretKey] = useState("");
+class SignUpPage extends Component{
+  constructor(props){
+    super(props);
+    this.state={
+      fullname: "",
+      email: "",
+      username: "",
+      password: "",
+      userType:"",
+      secretKey:""
 
-  const navigate = useNavigate();
+    }
+  }  
+  // const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+    handleSubmit = async (e) => {
     // console.log(secretKey);
     e.preventDefault();
-    if (userType === "Admin" && secretKey.secretKey !== "Akash") {
+    if (this.state.userType === "Admin" && this.state.secretKey !== "Akash") {
       alert("Invalid Admin");
     } else {
       const res = await axios
         .post("http://localhost:5000/register/user", {
-          fullname: signUpCredentials.fullname,
-          email: signUpCredentials.email,
-          username: signUpCredentials.username,
-          password: signUpCredentials.password,
-          usertype: userType,
+          fullname: this.state.fullname,
+          email: this.state.email,
+          username: this.state.username,
+          password: this.state.password,
+          usertype: this.state.userType,
         })
         .catch((err) => console.log(err));
       const data = await res.data;
@@ -34,19 +37,19 @@ export default function SignUpPage() {
       if (res.status === 200) {
         console.log(data, "User Registered Successfully");
 
-        navigate("/login/user");
+        // navigate("/login/user");
       } else {
         alert("User Not Registered");
       }
     }
   };
-
+  render(){
   return (
     <div
       className="container border border-dark bg-light mt-5 rounded-4 "
       style={{ width: "33rem", height: "40rem" }}
     >
-      <form autoComplete="Off" onSubmit={handleSubmit}>
+      <form autoComplete="Off" onSubmit={this.handleSubmit}>
         <nav className="navbar bg- mt-4 mb-4">
           <div className="container-fluid">
             <a className="navbar-brand" href="/">
@@ -59,9 +62,9 @@ export default function SignUpPage() {
                   type="radio"
                   name="UserType"
                   id="flexRadioDefault1"
-                  onClick={() => setUserType("User")}
+                  onClick={() => this.setState({userType:"User"})}
                 />
-                <label className="form-check-label" for="flexRadioDefault1">
+                <label className="form-check-label" >
                   User
                 </label>
               </div>
@@ -71,18 +74,18 @@ export default function SignUpPage() {
                   type="radio"
                   name="UserType"
                   id="flexRadioDefault1"
-                  onClick={() => setUserType("Admin")}
+                  onClick={() => this.setState({userType:"Admin"})}
                 />
-                <label className="form-check-label" for="flexRadioDefault1">
+                <label className="form-check-label">
                   Admin
                 </label>
               </div>
             </div>
           </div>
         </nav>
-        {userType === "Admin" ? (
+        {this.state.userType === "Admin" ? (
           <div className="mb-5 d-flex align-items-center">
-            <label for="exampleInputPassword1" className="form-label">
+            <label  className="form-label">
               SecretKey:
             </label>
             <input
@@ -91,10 +94,7 @@ export default function SignUpPage() {
               id="exampleInputPassword1"
               placeholder="Enter Your Name"
               onChange={(e) =>
-                setSecretKey({
-                  ...secretKey,
-                  secretKey: e.target.value,
-                })
+                this.setState({secretKey:e.target.value})
               }
             />
           </div>
@@ -102,7 +102,7 @@ export default function SignUpPage() {
           ""
         )}
         <div className="mb-5 d-flex align-items-center">
-          <label for="exampleInputPassword1" className="form-label">
+          <label  className="form-label">
             Fullname:
           </label>
           <input
@@ -111,15 +111,12 @@ export default function SignUpPage() {
             id="exampleInputPassword1"
             placeholder="Enter Your Name"
             onChange={(e) =>
-              setSignUpCredentials({
-                ...signUpCredentials,
-                fullname: e.target.value,
-              })
+              this.setState({fullname:e.target.value})
             }
           />
         </div>
         <div className="mb-5 d-flex align-items-center">
-          <label for="exampleInputEmail1" className="form-label">
+          <label className="form-label">
             Email address :
           </label>
           <input
@@ -129,15 +126,12 @@ export default function SignUpPage() {
             aria-describedby="emailHelp"
             placeholder="Enter Email"
             onChange={(e) =>
-              setSignUpCredentials({
-                ...signUpCredentials,
-                email: e.target.value,
-              })
+             this.setState({email:e.target.value})
             }
           />
         </div>
         <div className="mb-5 d-flex align-items-center">
-          <label for="exampleInputPassword1" className="form-label">
+          <label  className="form-label">
             Username:
           </label>
           <input
@@ -146,15 +140,12 @@ export default function SignUpPage() {
             id="exampleInputPassword1"
             placeholder="Enter Username"
             onChange={(e) =>
-              setSignUpCredentials({
-                ...signUpCredentials,
-                username: e.target.value,
-              })
+              this.setState({username: e.target.value})
             }
           />
         </div>
         <div className="mb-4 d-flex align-items-center">
-          <label for="exampleInputPassword1" className="form-label">
+          <label  className="form-label">
             Password:
           </label>
           <input
@@ -163,9 +154,8 @@ export default function SignUpPage() {
             id="exampleInputPassword1"
             placeholder="Enter Password"
             onChange={(e) =>
-              setSignUpCredentials({
-                ...signUpCredentials,
-                password: e.target.value,
+              this.setState({
+                password: e.target.value
               })
             }
           />
@@ -180,4 +170,7 @@ export default function SignUpPage() {
       </form>
     </div>
   );
+  }
 }
+
+export default SignUpPage

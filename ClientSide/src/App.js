@@ -7,8 +7,10 @@ import AddBlog from "./Components/AddBlogByLoginUser";
 import { ClickedBlog } from "./Components/ClickedBlog";
 import UpdateBlog from "./Components/UpdateBlog";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Component } from "react";
 
-function App() {
+class App extends Component {
+  render(){
   return (
     <BrowserRouter>
       <div>
@@ -26,6 +28,7 @@ function App() {
       </div>
     </BrowserRouter>
   );
+  }
 }
 
 export default App;

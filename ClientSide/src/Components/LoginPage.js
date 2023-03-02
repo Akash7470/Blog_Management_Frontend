@@ -1,20 +1,23 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Component} from "react";
 import axios from "axios";
+import withRouter from "../utilFiles/withRouter";
 
-export default function LoginPage() {
-  const [loginCredentials, setLoginCredentials] = useState({
-    email: "",
-    password: "",
-  });
-  const navigate = useNavigate();
-
+class LoginPage extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      email:'',
+      password:''
+    }
+  }
+  render(){
   const handleSubmit = async (e) => {
+    // console.log(this.props);
     e.preventDefault();
     const res = await axios
       .post("http://localhost:5000/login/user", {
-        email: loginCredentials.email,
-        password: loginCredentials.password,
+        email: this.state.email,
+        password: this.state.password,
       })
       .catch((err) => {
         console.log(err);
@@ -23,10 +26,13 @@ export default function LoginPage() {
     if (data.status === "Ok") {
       console.log(data.data, "LoginUseroiopo-----------------");
       window.localStorage.setItem("token", JSON.stringify(data.data));
+    
       if (data.data.usertype === "Admin") {
-        navigate("/user/admin");
+        this.props.navigate("/user/admin");
       } else {
-        navigate("/allblogs");
+        this.props.navigate("/allblogs");
+       
+
       }
     } else {
       alert("User Not Found !!");
@@ -48,7 +54,7 @@ export default function LoginPage() {
 
       <form autoComplete="Off" onSubmit={handleSubmit} className="mt-1">
         <div className="mb-4 d-flex gap-1">
-          <label for="exampleInputEmail1" className="form-label">
+          <label  className="form-label">
             Email address
           </label>
           <input
@@ -57,15 +63,12 @@ export default function LoginPage() {
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
             onChange={(e) =>
-              setLoginCredentials({
-                ...loginCredentials,
-                email: e.target.value,
-              })
+              this.setState({email: e.target.value})
             }
           />
         </div>
         <div className="mb-4 d-flex gap-3">
-          <label for="exampleInputPassword1" className="form-label">
+          <label  className="form-label">
             Password
           </label>
           <input
@@ -73,10 +76,7 @@ export default function LoginPage() {
             className="form-control"
             id="exampleInputPassword1"
             onChange={(e) =>
-              setLoginCredentials({
-                ...loginCredentials,
-                password: e.target.value,
-              })
+             this.setState({password:e.target.value} )
             }
           />
         </div>
@@ -89,7 +89,7 @@ export default function LoginPage() {
           />
           <p> Keep me Login....</p>
         </div>
-
+          
         <button type="submit" className="btn btn-primary mb-4">
           Login
         </button>
@@ -102,4 +102,7 @@ export default function LoginPage() {
       </form>
     </div>
   );
+          }
 }
+
+export default withRouter(LoginPage)

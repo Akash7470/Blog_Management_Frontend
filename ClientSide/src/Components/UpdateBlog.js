@@ -16,6 +16,7 @@ export default function UpdateBlog() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(blogId);
     const res = await axios
       .put(`http://localhost:5000/blog/update/${blogId}`, {
         title: addBlogCredentials.title,
@@ -45,7 +46,7 @@ export default function UpdateBlog() {
           </div>
         </nav>
         <div className="mb-5 d-flex align-items-center">
-          <label for="exampleInputPassword1" className="form-label">
+          <label  className="form-label">
             Title:
           </label>
           <input
@@ -62,7 +63,7 @@ export default function UpdateBlog() {
           />
         </div>
         <div className="mb-5 d-flex align-items-center">
-          <label for="exampleInputEmail1" className="form-label">
+          <label  className="form-label">
             Description:
           </label>
           <input
@@ -79,7 +80,7 @@ export default function UpdateBlog() {
           />
         </div>
         <div className="mb-5 d-flex align-items-center">
-          <label for="exampleInputPassword1" className="form-label">
+          <label className="form-label">
             Image Url:
           </label>
           <input

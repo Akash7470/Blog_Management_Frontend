@@ -24,8 +24,8 @@ export default function Homepage() {
   };
 
   const blogOpen = (e) => {
+    console.log(e);
     setCardOpen(true);
-
     JSON.stringify(window.localStorage.setItem("blogId", e));
   };
 

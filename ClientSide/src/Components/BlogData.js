@@ -11,13 +11,15 @@ export const BlogData = ({
 }) => {
   const navigate = useNavigate();
   const loginUser = JSON.parse(window.localStorage.getItem("token"));
+
   const handleDeleteBtn = async () => {
+    console.log(blogId,"ddelleetee Id");
     const res = await axios
       .delete(`http://localhost:5000/blog/delete/${blogId}`)
       .catch((err) => console.log(err));
     if (res.status === 200) {
-      navigate("/allblogs");
       console.log(res, "Deleted Data !! ");
+      navigate('/allblogs')
     }
   };
   return (
@@ -59,23 +61,22 @@ export const BlogData = ({
             Email: <small className="text-muted">{userEmail}</small> <br />
             FullName: <small className="text-muted">{userFullName}</small>
           </div>
-          {/* {loginUser.email === userEmail ? (
-            <p style={{ color: "skyblue" }}>
-              You Can edit & Delete This Blog...
-            </p>
-          ) : (
-            ""
-          )} */}
           {loginUser.usertype === "Admin" ? (
             <div className=" d-flex justify-content-end gap-3">
               <button
-                onClick={() => navigate("/allblogs/update")}
+                onClick={() =>{
+                  onClick(blogId);
+                 navigate("/allblogs/update");
+                 }}
                 className="btn btn-info"
               >
                 update
               </button>
               <button
-                onClick={() => handleDeleteBtn()}
+                onClick={() =>{
+                  onClick(blogId);
+                 handleDeleteBtn();
+                 }}
                 className="btn btn-danger"
               >
                 delete
