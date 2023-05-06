@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +19,7 @@ export const ClickedBlog = () => {
   const navigate = useNavigate();
   const [blogData, setBlogData] = useState();
   const blogId = window.localStorage.getItem("blogId");
-  const loginUser = JSON.parse(window.localStorage.getItem("token"));
+  const loginUser = jwtDecode(localStorage.getItem("token"));
   const getClickedBlogData = async () => {
     const res = await axios
       .get(`http://localhost:5000/blog/${blogId}`)
@@ -27,7 +28,7 @@ export const ClickedBlog = () => {
       });
     if (res.status === 200) {
       setBlogData(res.data.blog);
-      console.log(res.data.blog, "Clicked Blog is..");
+      // console.log(res.data.blog, "Clicked Blog is..");
     } else {
       alert("Nothing");
     }
@@ -73,10 +74,21 @@ export const ClickedBlog = () => {
                 FullName:{" "}
                 <small className="text-muted">{blogData.user.fullname}</small>
               </div>
-              {loginUser.email === (blogData && blogData.user.email) ? (
+              {loginUser?.loginUser.email ===
+              (blogData && blogData.user.email) ? (
                 <div className=" d-flex justify-content-end gap-3">
                   <button
-                    onClick={() => navigate("/allblogs/update")}
+                    onClick={() =>
+                      navigate("/allblogs/update", {
+                        state: {
+                          imageUrl: blogData.image,
+                          description: blogData.description,
+                          title: blogData.title,
+                          userEmail: blogData.user.email,
+                          userFullName: blogData.user.fullname,
+                        },
+                      })
+                    }
                     className="btn btn-info"
                   >
                     update

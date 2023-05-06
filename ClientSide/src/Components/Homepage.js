@@ -3,30 +3,31 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BlogData } from "./BlogData";
 import { ClickedBlog } from "./ClickedBlog";
-
+import jwtDecode from "jwt-decode";
 export default function Homepage() {
   const [blogData, setBlogData] = useState();
-  const loginUser = JSON.parse(window.localStorage.getItem("token"));
+  const loginUser = jwtDecode(localStorage.getItem("token"));
   const [cardOpen, setCardOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     gettingData();
-    // console.log(loginUser);
+    // console.log(blogData);
   }, []);
 
   const gettingData = async () => {
-    const res = await axios
-      .get("http://localhost:5000/allblogs")
-      .catch((err) => console.log(err));
-    // console.log(res.data.blogs);
-    setBlogData(res.data.blogs);
+    try {
+      const res = await axios.get("http://localhost:5000/allblogs");
+      // console.log(res?.data.blogs);
+      setBlogData(res?.data.blogs);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const blogOpen = (e) => {
     setCardOpen(true);
-
-    JSON.stringify(window.localStorage.setItem("blogId", e));
+    localStorage.setItem("blogId", e);
   };
 
   return (
@@ -81,8 +82,8 @@ export default function Homepage() {
                 imageUrl={elem.image}
                 title={elem.title}
                 description={elem.description}
-                userEmail={elem.user.email}
-                userFullName={elem.user.fullname}
+                userEmail={elem.user?.email}
+                userFullName={elem.user?.fullname}
                 onClick={blogOpen}
               />
             );
@@ -96,13 +97,15 @@ export default function Homepage() {
             <div className="card-header text-center">User Details</div>
             <div className=" text-start">
               <div className="card-title d-flex gap-2 ">
-                FullName: <h5 className="card-title">{loginUser.fullname}</h5>
+                FullName:{" "}
+                <h5 className="card-title">{loginUser?.loginUser.fullname}</h5>
               </div>
               <div className="card-title d-flex gap-2">
-                UserName: <p className="card-text">{loginUser.username}</p>
+                UserName:{" "}
+                <p className="card-text">{loginUser?.loginUser.username}</p>
               </div>
               <div className="card-title d-flex gap-2">
-                Email: <p className="card-text">{loginUser.email}</p>
+                Email: <p className="card-text">{loginUser?.loginUser.email}</p>
               </div>
             </div>
           </div>

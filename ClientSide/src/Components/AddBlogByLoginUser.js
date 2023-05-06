@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +12,7 @@ export default function AddBlogByLoginUser() {
   });
 
   const navigate = useNavigate();
-  const loginUser = JSON.parse(window.localStorage.getItem("token"));
+  const loginUser = jwtDecode(localStorage.getItem("token"));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,12 +21,12 @@ export default function AddBlogByLoginUser() {
         title: addBlogCredentials.title,
         description: addBlogCredentials.description,
         image: addBlogCredentials.image,
-        user: loginUser._id,
+        user: loginUser?.loginUser._id,
       })
       .catch((err) => {
         console.log(err);
       });
-    console.log(res);
+    // console.log(res);
     if (res.status === 200) {
       console.log(res.data, "Blog Added Successfully");
       navigate("/allblogs");
@@ -33,7 +34,7 @@ export default function AddBlogByLoginUser() {
       alert("Blog Not Added !!");
     }
 
-    console.log(res);
+    // console.log(res);
   };
 
   return (

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 export const BlogData = ({
   blogId,
   imageUrl,
@@ -10,7 +11,8 @@ export const BlogData = ({
   onClick,
 }) => {
   const navigate = useNavigate();
-  const loginUser = JSON.parse(window.localStorage.getItem("token"));
+  const loginUser = jwtDecode(localStorage.getItem("token"));
+  // console.log(loginUser, "BlogData-----------");
   const handleDeleteBtn = async () => {
     const res = await axios
       .delete(`http://localhost:5000/blog/delete/${blogId}`)
@@ -66,10 +68,20 @@ export const BlogData = ({
           ) : (
             ""
           )} */}
-          {loginUser.usertype === "Admin" ? (
+          {loginUser?.loginUser.usertype === "Admin" ? (
             <div className=" d-flex justify-content-end gap-3">
               <button
-                onClick={() => navigate("/allblogs/update")}
+                onClick={() =>
+                  navigate("/allblogs/update", {
+                    state: {
+                      imageUrl,
+                      description,
+                      title,
+                      userEmail,
+                      userFullName,
+                    },
+                  })
+                }
                 className="btn btn-info"
               >
                 update

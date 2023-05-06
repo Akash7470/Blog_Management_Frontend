@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import jwtDecode from "jwt-decode";
 export default function LoginPage() {
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
@@ -19,11 +19,12 @@ export default function LoginPage() {
       .catch((err) => {
         console.log(err);
       });
-    const data = res.data;
-    if (data.status === "Ok") {
-      console.log(data.data, "LoginUseroiopo-----------------");
-      window.localStorage.setItem("token", JSON.stringify(data.data));
-      if (data.data.usertype === "Admin") {
+    // console.log(res, "result");
+    if (res?.data?.status === "Ok") {
+      localStorage.setItem("token", JSON.stringify(res?.data.data));
+      const data = jwtDecode(res?.data.data);
+      // console.log(data.loginUser.usertype, "LoginUseroiopo-----------------");
+      if (data.loginUser.usertype === "Admin") {
         navigate("/user/admin");
       } else {
         navigate("/allblogs");
@@ -48,9 +49,7 @@ export default function LoginPage() {
 
       <form autoComplete="Off" onSubmit={handleSubmit} className="mt-1">
         <div className="mb-4 d-flex gap-1">
-          <label for="exampleInputEmail1" className="form-label">
-            Email address
-          </label>
+          <label className="form-label">Email address</label>
           <input
             type="email"
             className="form-control"
@@ -65,9 +64,7 @@ export default function LoginPage() {
           />
         </div>
         <div className="mb-4 d-flex gap-3">
-          <label for="exampleInputPassword1" className="form-label">
-            Password
-          </label>
+          <label className="form-label">Password</label>
           <input
             type="password"
             className="form-control"

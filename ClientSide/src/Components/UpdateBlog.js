@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function UpdateBlog() {
+  const location = useLocation();
+  // console.log(location.state, "updateblog");
   const [addBlogCredentials, setAddBlogCredentials] = useState({
-    title: "",
-    description: "",
-    image: "",
+    title: location.state.title,
+    description: location.state.description,
+    image: location.state.imageUrl,
     user: "",
   });
 
@@ -26,7 +28,7 @@ export default function UpdateBlog() {
       .catch((err) => console.log(err));
     // console.log(res);
     if (res.status === 200) {
-      console.log(res.data, "Blog Updated Successfully");
+      // console.log(res.data, "Blog Updated Successfully");
       navigate("/allblogs");
     } else {
       alert("Blog Not Updated !!");
@@ -52,7 +54,7 @@ export default function UpdateBlog() {
             type="text"
             className="form-control mx-4"
             id="exampleInputPassword1"
-            placeholder="Enter Your Blog Title"
+            placeholder={addBlogCredentials.title}
             onChange={(e) =>
               setAddBlogCredentials({
                 ...addBlogCredentials,
@@ -69,7 +71,7 @@ export default function UpdateBlog() {
             type="text"
             className="form-control mx-4"
             id="exampleInputEmail1"
-            placeholder="Enter Your Blog Description"
+            placeholder={addBlogCredentials.description}
             onChange={(e) =>
               setAddBlogCredentials({
                 ...addBlogCredentials,
@@ -85,7 +87,7 @@ export default function UpdateBlog() {
           <input
             type="text"
             className="form-control mx-4"
-            placeholder="Enter Image Url"
+            placeholder={addBlogCredentials.image}
             onChange={(e) =>
               setAddBlogCredentials({
                 ...addBlogCredentials,
